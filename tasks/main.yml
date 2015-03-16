@@ -1,0 +1,14 @@
+---
+
+- include: package.yml
+  tags: package
+
+- include: configuration.yml
+  tags: configuration
+
+- name: start/stop apache service
+  service:
+    name: apache2
+    state: '{{ apache2_service_state }}'
+    enabled: '{{ apache2_service_enabled }}'
+  tags: service

@@ -1,0 +1,15 @@
+---
+
+- name: add repository to install Apache from
+  apt_repository:
+    repo: '{{ apache_ppa_repo }}'
+    update_cache: yes
+  when: apache_ppa_repo != None
+
+- name: install packages
+  apt:
+    pkg: '{{ item }}'
+    state: installed
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items: apache_packages

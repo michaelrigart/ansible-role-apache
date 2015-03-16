@@ -1,0 +1,39 @@
+---
+
+apache_ppa_repo:
+apache_packages:
+  - apache2
+apache_server_root: '/etc/apache2'
+apache_add_confs: []
+apache_remove_confs: []
+apache_enable_mods:
+  - access_compat
+  - alias
+  - auth_basic
+  - authn_core
+  - authn_file
+  - authz_core
+  - authz_host
+  - authz_user
+  - autoindex
+  - deflate
+  - dir
+  - env
+  - filter
+  - mime
+  - mpm_event
+  - negotiation
+  - setenvif
+  - status
+apache_enable_confs:
+  - charset
+  - localized-error-pages
+  - other-vhosts-access-log
+  - security
+  - serve-cgi-bin
+apache_add_sites: []
+apache_remove_sites: []
+apache_enable_sites:
+  - 000-default
+apache2_service_state: started
+apache2_service_enabled: yes

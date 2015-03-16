@@ -1,0 +1,92 @@
+---
+
+- name: enable modules
+  command: 'a2enmod {{ item }}'
+  args:
+    creates: '{{ apache_server_root }}/mods-enabled/{{ item }}.load'
+  with_items: apache_enable_mods
+  notify: apache_restart
+
+- name: list all enabled modules
+  shell: 'ls -1 {{ apache_server_root }}/mods-enabled/ | sed -e "s/\..*$//"'
+  changed_when: False
+  always_run: True
+  register: apache_mods_enabled
+
+- name: disable other apache2 modules
+  command: 'a2dismod -f {{ item }}'
+  args:
+    removes: '{{ apache_server_root }}/mods-enabled/{{ item }}.load'
+  with_items: apache_mods_enabled.stdout_lines|list|unique|difference(apache_enable_mods)|list
+  notify: apache_restart
+
+- name: set configurations
+  copy:
+    src: '{{ item }}'
+    dest: '{{ apache_server_root }}/conf-available/{{ item }}'
+    owner: root
+    group: root
+    mode: 0644
+  with_items: apache_add_confs
+
+- name: remove configurations
+  file:
+    path: '{{ apache_server_root }}/conf-available/{{ item }}'
+    state: absent
+  with_items: apache_remove_confs
+
+- name: enable configurations
+  command: 'a2enconf {{ item }}'
+  args:
+    creates: '{{ apache_server_root }}/conf-enabled/{{ item }}.conf'
+  with_items: apache_enable_confs
+  notify: apache_restart
+
+- name: list all enabled configurations
+  shell: 'ls -1 {{ apache_server_root }}/conf-enabled/ | sed -e "s/\..*$//"'
+  changed_when: False
+  always_run: True
+  register: apache_confs_enabled
+
+- name: disable other apache2 configurations
+  command: 'a2disconf {{ item }}'
+  args:
+    removes: '{{ apache_server_root }}/conf-enabled/{{ item }}.conf'
+  with_items: apache_confs_enabled.stdout_lines|difference(apache_enable_confs)|list
+  notify: apache_restart
+
+- name: set sites
+  copy:
+    src: '{{ item }}'
+    dest: '{{ apache_server_root }}/sites-available/{{ item }}'
+    owner: root
+    group: root
+    mode: 0644
+  with_items: apache_add_sites
+
+- name: remove sites
+  file:
+    path: '{{ apache_server_root }}/sites-available/{{ item }}'
+    state: absent
+  with_items: apache_remove_sites
+
+- name: enable sites
+  command: 'a2ensite {{ item }}'
+  args:
+    creates: '{{ apache_server_root }}/sites-enabled/{{ item }}.conf'
+  with_items: apache_enable_sites
+  notify: apache_restart
+
+- name: list all enabled sites
+  shell: 'ls -1 {{ apache_server_root }}/sites-enabled/ | sed -e "s/\..*$//"'
+  changed_when: False
+  always_run: True
+  register: apache_sites_enabled
+
+- name: disable other sites
+  command: 'a2dissite {{ item }}'
+  args:
+    removes: '{{ apache_server_root }}/sites-enabled/{{ item }}.conf'
+  with_items: apache_sites_enabled.stdout_lines|difference(apache_enable_sites)|list
+  notify: apache_restart
+
