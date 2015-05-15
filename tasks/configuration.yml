@@ -28,12 +28,16 @@
     group: root
     mode: 0644
   with_items: apache_add_confs
+  notify: apache_restart
+
 
 - name: remove configurations
   file:
     path: '{{ apache_server_root }}/conf-available/{{ item }}'
     state: absent
   with_items: apache_remove_confs
+  notify: apache_restart
+
 
 - name: enable configurations
   command: 'a2enconf {{ item }}'
@@ -63,6 +67,8 @@
     group: root
     mode: 0644
   with_items: apache_add_sites
+  notify: apache_restart
+
 
 - name: remove sites
   file:
