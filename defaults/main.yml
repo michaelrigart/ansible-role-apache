@@ -21,7 +21,7 @@ apache_enable_mods:
   - env
   - filter
   - mime
-  - mpm_event
+  - mpm_prefork
   - negotiation
   - setenvif
   - status
