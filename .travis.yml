@@ -7,6 +7,6 @@ before_install:
 install:
   - pip install ansible==1.9.1
 script:
-  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
-  - "ansible-playbook -i tests/inventory tests/test.yml --extra-vars 'apache_enable_mods: [\"alias\", \"auth_basic\", \"authn_file\", \"authz_host\", \"authz_user\", \"autoindex\", \"deflate\", \"dir\", \"env\", \"filter\", \"mime\", \"negotiation\", \"setenvif\", \"status\"]' --connection=local --sudo"
-  - "ansible-playbook -i tests/inventory tests/test.yml --extra-vars 'apache_enable_mods: [\"alias\", \"auth_basic\", \"authn_file\", \"authz_host\", \"authz_user\", \"autoindex\", \"deflate\", \"dir\", \"env\", \"filter\", \"mime\", \"negotiation\", \"setenvif\", \"status\"]' --connection=local --sudo | tee /tmp/output.txt; grep -q 'changed=0.*failed=0' /tmp/output.txt && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)"
+  - ansible-playbook -i tests/inventory tests/ubuntu1204.yml --syntax-check
+  - ansible-playbook -i tests/inventory tests/ubuntu1204.yml --connection=local --sudo
+  - "ansible-playbook -i tests/inventory tests/ubuntu1204.yml --connection=local --sudo | tee /tmp/output.txt; grep -q 'changed=0.*failed=0' /tmp/output.txt && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)"
