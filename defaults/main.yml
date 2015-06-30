@@ -34,6 +34,6 @@ apache_enable_confs:
 apache_add_sites: []
 apache_remove_sites: []
 apache_enable_sites:
-  - 000-default
+  - 000-default.conf
 apache2_service_state: started
-apache2_service_enabled: yes
+apache2_servicte_enabled: yes
