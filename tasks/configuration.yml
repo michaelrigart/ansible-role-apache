@@ -69,7 +69,6 @@
   with_items: apache_add_sites
   notify: apache_restart
 
-
 - name: remove sites
   file:
     path: '{{ apache_server_root }}/sites-available/{{ item }}'
@@ -79,7 +78,7 @@
 - name: enable sites
   command: 'a2ensite {{ item }}'
   args:
-    creates: '{{ apache_server_root }}/sites-enabled/{{ item }}.conf'
+    creates: '{{ apache_server_root }}/sites-enabled/{{ item }}'
   with_items: apache_enable_sites
   notify: apache_restart
 
@@ -92,7 +91,7 @@
 - name: disable other sites
   command: 'a2dissite {{ item }}'
   args:
-    removes: '{{ apache_server_root }}/sites-enabled/{{ item }}.conf'
+    removes: '{{ apache_server_root }}/sites-enabled/{{ item }}'
   with_items: apache_sites_enabled.stdout_lines|difference(apache_enable_sites)|list
   notify: apache_restart
 
