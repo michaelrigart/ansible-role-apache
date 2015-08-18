@@ -1,6 +1,6 @@
 Ansible Apache Role
 ===================
-[![Build Status](https://semaphoreci.com/api/v1/projects/3ba5a152-281d-4640-8e19-14bc94ff0a89/459423/badge.svg)](https://semaphoreci.com/michaelrigart/ansible-role-apache) [![Build Status](https://travis-ci.org/michaelrigart/ansible-role-apache.svg?branch=master)](https://travis-ci.org/michaelrigart/ansible-role-apache)
+[![Build Status](https://semaphoreci.com/api/v1/projects/3ba5a152-281d-4640-8e19-14bc94ff0a89/459423/badge.svg)](https://semaphoreci.com/michaelrigart/ansible-role-apache)
 
 An Ansible role for installing and configuring Apache webserver
 
