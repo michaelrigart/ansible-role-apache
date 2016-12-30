@@ -4,7 +4,7 @@
   command: 'a2enmod {{ item }}'
   args:
     creates: '{{ apache_server_root }}/mods-enabled/{{ item }}.load'
-  with_items: apache_enable_mods
+  with_items: '{{ apache_enable_mods }}'
   notify: apache_restart
 
 - name: list all enabled modules
@@ -27,7 +27,7 @@
     owner: root
     group: root
     mode: 0644
-  with_items: apache_add_confs
+  with_items: '{{ apache_add_confs }}'
   notify: apache_restart
 
 
@@ -35,7 +35,7 @@
   file:
     path: '{{ apache_server_root }}/conf-available/{{ item }}'
     state: absent
-  with_items: apache_remove_confs
+  with_items: '{{ apache_remove_confs }}'
   notify: apache_restart
 
 
@@ -43,7 +43,7 @@
   command: 'a2enconf {{ item }}'
   args:
     creates: '{{ apache_server_root }}/conf-enabled/{{ item }}.conf'
-  with_items: apache_enable_confs
+  with_items: '{{ apache_enable_confs }}'
   notify: apache_restart
 
 - name: list all enabled configurations
@@ -66,20 +66,20 @@
     owner: root
     group: root
     mode: 0644
-  with_items: apache_add_sites
+  with_items: '{{ apache_add_sites }}'
   notify: apache_restart
 
 - name: remove sites
   file:
     path: '{{ apache_server_root }}/sites-available/{{ item }}'
     state: absent
-  with_items: apache_remove_sites
+  with_items: '{{ apache_remove_sites }}'
 
 - name: enable sites
   command: 'a2ensite {{ item }}'
   args:
     creates: '{{ apache_server_root }}/sites-enabled/{{ item }}'
-  with_items: apache_enable_sites
+  with_items: '{{ apache_enable_sites }}'
   notify: apache_restart
 
 - name: list all enabled sites

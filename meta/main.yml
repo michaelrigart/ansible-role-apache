@@ -4,11 +4,12 @@ galaxy_info:
   description: An ansible role for installing and configuring Apache webserver
   company: Netronix.be
   license: GPLv3
-  min_ansible_version: 1.8
+  min_ansible_version: 2.2
   platforms:
     - name: Ubuntu
       versions:
         - trusty
+        - xenial
   categories:
     - web
 dependencies: []
